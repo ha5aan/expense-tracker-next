@@ -1,8 +1,14 @@
-import { Box, Flex,Text } from '@chakra-ui/react'
+import { Box, Flex,Text,Input, Stack, InputGroup, InputLeftAddon,
+  Radio, RadioGroup,Button } from '@chakra-ui/react'
 import Head from 'next/head'
 import styles from "../styles/Home.module.css"
-
-
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+} from '@chakra-ui/react'
 export default function Home() {
   return (
     <>
@@ -19,14 +25,111 @@ export default function Home() {
           <Text ml={"5"} fontSize="lg">Muhammad Hasaan</Text>
         </Box>
 
-        <Box className={styles.card} m={"1"} border="1px">
+        <Box className={styles.card} width={["280px","400px","450px"]} m={"1"} border="1px">
          <Text fontSize={'3xl'}>$ Amount</Text>
-         <div className={`${styles.outerCircle} ${styles.bordergradientpurple}`}>
+         <div className={styles.outerCircle }>
+          <div className={styles.innercircle}>
 
+          </div>
          </div>
+<Text>
+  Balance
+</Text>
+
+<hr/>
+<Box mt={10}/>
+<div className={styles.cardDetails} >
+<Flex m={2}   justify="space-between">
+
+<Box >
+  <Text fontSize={'2xl'}>
+    **** **** **** 1234
+  </Text>
+</Box>
+<Box><Text fontSize={'1xl'}> LOGO </Text></Box>
+
+</Flex>
+</div>
+<div className={styles.circle}/>
         </Box>
+
+        <Box p={5} m={2} border='1px' borderRadius={"20px"} borderColor='gray.200'>
+        <Text mb={2} textAlign={'center'} fontSize={"xl"}> Add New Transaction</Text>
+        <Stack  spacing={4}>
+        {/* <Input placeholder='Enter Amount' type={"number"} size='md' /> */}
+        <RadioGroup defaultValue='2'>
+  <Stack spacing={5} direction='row'>
+    <Radio colorScheme='red' value='1'>
+      Credit
+    </Radio>
+    <Radio colorScheme='green' value='2'>
+      Debit
+    </Radio>
+  </Stack>
+</RadioGroup>
+        <InputGroup>
+    <InputLeftAddon children="Amount" />
+    <Input type='number' placeholder='phone number' />
+  </InputGroup>
+       
+        {/* <Input placeholder='Enter Description' type={"number"} size='md' /> */}
+
+        <InputGroup>
+    <InputLeftAddon children="Decription" />
+    <Input type='text' placeholder='Description' />
+  </InputGroup>
+        </Stack>
+        <Box mt={3} textAlign={'center'}>
+        <Button textAlign={'center'} justifySelf={'center'} colorScheme='blue'>Add Transaction</Button>
+        </Box>
+        </Box>
+
+        <Box>
+        <Text fontSize={'1xl'} fontWeight={"bold"} textDecoration={"ThreeDFace"}> All Transactions</Text>
+        <Accordion allowToggle>
+       
+  <AccordionItem>
+    <h2>
+      <AccordionButton>
+        <Box as="span" flex='1' textAlign='left'>
+          ID: Amount
+        </Box>
+        <AccordionIcon />
+      </AccordionButton>
+    </h2>
+    <AccordionPanel pb={4}>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat.
+    </AccordionPanel>
+  </AccordionItem>
+
+  <AccordionItem>
+    <h2>
+      <AccordionButton>
+        <Box as="span" flex='1' textAlign='left'>
+          ID: AMount
+        </Box>
+        <AccordionIcon />
+      </AccordionButton>
+    </h2>
+    <AccordionPanel pb={4}>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat.
+    </AccordionPanel>
+  </AccordionItem>
+</Accordion>
+
+
+        </Box>
+        
         </Flex>
+       
         </Box>
+        
     </>
   )
 }
