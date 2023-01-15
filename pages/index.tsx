@@ -16,11 +16,12 @@ export default function Home() {
     income: boolean,
 details:string
   }
+  const TypeDEfinedArray:transactionData[]=[]
   const toast = useToast()
 
-  const [transactiondetails, setTransactiondetails] = useState<[transactionData]>([]);
+  const [transactiondetails, setTransactiondetails] = useState(TypeDEfinedArray);
   const [total,setTotal]=useState<number>(0);
-const changehandler =(e)=>{
+const changehandler =(e:any)=>{
   e.preventDefault()
   let currentTransaction = transactiondetails
  
@@ -41,7 +42,7 @@ if(total<amount && income==0 ){
   }))
 }else if(income==1){
   let currenttotal:number = total
-currentTransaction.push({
+currentTransaction?.push({
   amount:amount,
   details: description,
   income:true
@@ -53,7 +54,7 @@ currentTransaction.push({
   // });
 }else{
   let currenttotal:number = total
-  currentTransaction.push({
+  currentTransaction?.push({
     amount:amount,
     details: description,
     income:false
@@ -149,12 +150,12 @@ const Amount ="Amount"
         <Text fontSize={'1xl'} fontWeight={"bold"} textDecoration={"ThreeDFace"}> All Transactions</Text>
         <Accordion allowToggle>
        
-       {transactiondetails.map((element,index)=>{
+       {transactiondetails && transactiondetails.map((element,index)=>{
 return(<AccordionItem key={index}>
   <h2>
     <AccordionButton>
       <Box as="span" flex='1' textAlign='left'>
-        {index} : Anount = {element.amount}
+        {index} : Amount = {element.amount}
       </Box>
       <AccordionIcon />
     </AccordionButton>
