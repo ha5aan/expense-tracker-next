@@ -1,6 +1,6 @@
 import { Box, Flex,Text,Input, Stack, InputGroup, InputLeftAddon,
   Radio, RadioGroup,Button, Alert, AlertDescription, AlertIcon, AlertTitle,useToast} from '@chakra-ui/react'
-  import { useState } from 'react'
+  import { Children, useState } from 'react'
 import Head from 'next/head'
 import styles from "../styles/Home.module.css"
 import {
@@ -66,7 +66,7 @@ currentTransaction.push({
   
 
 }
-
+const Amount ="Amount"
   return (
     <>
       <Head>
@@ -127,14 +127,15 @@ currentTransaction.push({
   </Stack>
 </RadioGroup>
         <InputGroup>
-    <InputLeftAddon children="Amount" />
+    {/* <InputLeftAddon  />
+{Amount} */}
     <Input type='number'name='amount' required placeholder='Amount' />
   </InputGroup>
        
         {/* <Input placeholder='Enter Description' type={"number"} size='md' /> */}
 
         <InputGroup>
-    <InputLeftAddon children="Decription" />
+    {/* <InputLeftAddon children="Decription" /> */}
     <Input type='text' required name='description' placeholder='Description' />
   </InputGroup>
         </Stack>
