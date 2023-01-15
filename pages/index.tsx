@@ -1,5 +1,6 @@
 import { Box, Flex,Text,Input, Stack, InputGroup, InputLeftAddon,
-  Radio, RadioGroup,Button } from '@chakra-ui/react'
+  Radio, RadioGroup,Button, Alert, AlertDescription, AlertIcon, AlertTitle,useToast} from '@chakra-ui/react'
+  import { useState } from 'react'
 import Head from 'next/head'
 import styles from "../styles/Home.module.css"
 import {
@@ -10,6 +11,62 @@ import {
   AccordionIcon,
 } from '@chakra-ui/react'
 export default function Home() {
+  type transactionData ={
+    amount:number,
+    income: boolean,
+details:string
+  }
+  const toast = useToast()
+
+  const [transactiondetails, setTransactiondetails] = useState<[transactionData]>([]);
+  const [total,setTotal]=useState<number>(0);
+const changehandler =(e)=>{
+  e.preventDefault()
+  let currentTransaction = transactiondetails
+ 
+  let amount = parseInt(e.target.amount.value)
+  let income=e.target.income.value
+let description =e.target.description.value 
+if( isNaN(amount)){
+
+}else{
+if(total<amount && income==0 ){
+  //alert ("transaction failed")
+  return( toast({
+    title: 'Transaction Failed.',
+    description: "Exprense cannot be greater than income.",
+    status: 'error',
+    duration: 9000,
+    isClosable: true,
+  }))
+}else if(income==1){
+  let currenttotal:number = total
+currentTransaction.push({
+  amount:amount,
+  details: description,
+  income:true
+})
+  setTotal(currenttotal+ amount)
+  setTransactiondetails(currentTransaction)
+  // transactiondetails.forEach(element => {
+  //   console.log(element)
+  // });
+}else{
+  let currenttotal:number = total
+  currentTransaction.push({
+    amount:amount,
+    details: description,
+    income:false
+  })
+  setTotal(currenttotal- amount)
+  setTransactiondetails(currentTransaction)
+
+}
+}
+  
+
+}
+
   return (
     <>
       <Head>
@@ -19,6 +76,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Box mt={"10"} mx={["5%","5%","10%","30%"]} p={["5","3","7","9"]} border='1px' borderColor='gray.200'>
+  
         <Flex  direction="column">
         <Box>
           <Text color="#9E9C9C" fontSize="md">Good Morning!</Text>
@@ -26,7 +84,7 @@ export default function Home() {
         </Box>
 
         <Box className={styles.card} width={["280px","400px","450px"]} m={"1"} border="1px">
-         <Text fontSize={'3xl'}>$ Amount</Text>
+         <Text fontSize={'3xl'}>$ {total}</Text>
          <div className={styles.outerCircle }>
           <div className={styles.innercircle}>
 
@@ -54,73 +112,61 @@ export default function Home() {
         </Box>
 
         <Box p={5} m={2} border='1px' borderRadius={"20px"} borderColor='gray.200'>
+          <form onSubmit={changehandler} >
         <Text mb={2} textAlign={'center'} fontSize={"xl"}> Add New Transaction</Text>
         <Stack  spacing={4}>
         {/* <Input placeholder='Enter Amount' type={"number"} size='md' /> */}
-        <RadioGroup defaultValue='2'>
-  <Stack spacing={5} direction='row'>
-    <Radio colorScheme='red' value='1'>
-      Credit
+        <RadioGroup name='income' defaultValue='1'>
+  <Stack spacing={5} direction='row' >
+    <Radio colorScheme='green' checked value='1'>
+      Income
     </Radio>
-    <Radio colorScheme='green' value='2'>
-      Debit
+    <Radio colorScheme='red' value='0'>
+      Expense
     </Radio>
   </Stack>
 </RadioGroup>
         <InputGroup>
     <InputLeftAddon children="Amount" />
-    <Input type='number' placeholder='phone number' />
+    <Input type='number'name='amount' required placeholder='Amount' />
   </InputGroup>
        
         {/* <Input placeholder='Enter Description' type={"number"} size='md' /> */}
 
         <InputGroup>
     <InputLeftAddon children="Decription" />
-    <Input type='text' placeholder='Description' />
+    <Input type='text' required name='description' placeholder='Description' />
   </InputGroup>
         </Stack>
         <Box mt={3} textAlign={'center'}>
-        <Button textAlign={'center'} justifySelf={'center'} colorScheme='blue'>Add Transaction</Button>
+        <Button textAlign={'center'} type={"submit"} justifySelf={'center'} colorScheme='blue'>Add Transaction</Button>
         </Box>
+        </form>
         </Box>
 
         <Box>
         <Text fontSize={'1xl'} fontWeight={"bold"} textDecoration={"ThreeDFace"}> All Transactions</Text>
         <Accordion allowToggle>
        
-  <AccordionItem>
-    <h2>
-      <AccordionButton>
-        <Box as="span" flex='1' textAlign='left'>
-          ID: Amount
-        </Box>
-        <AccordionIcon />
-      </AccordionButton>
-    </h2>
-    <AccordionPanel pb={4}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat.
-    </AccordionPanel>
-  </AccordionItem>
+       {transactiondetails.map((element,index)=>{
+return(<AccordionItem key={index}>
+  <h2>
+    <AccordionButton>
+      <Box as="span" flex='1' textAlign='left'>
+        {index} : Anount = {element.amount}
+      </Box>
+      <AccordionIcon />
+    </AccordionButton>
+  </h2>
+  <AccordionPanel pb={4}>
+    {element.details} <br/>
+    Type  {(element.income) ?  "Income" : "Expense"}
+  </AccordionPanel>
+</AccordionItem>)
+       })}
+  
 
-  <AccordionItem>
-    <h2>
-      <AccordionButton>
-        <Box as="span" flex='1' textAlign='left'>
-          ID: AMount
-        </Box>
-        <AccordionIcon />
-      </AccordionButton>
-    </h2>
-    <AccordionPanel pb={4}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat.
-    </AccordionPanel>
-  </AccordionItem>
+
 </Accordion>
 
 
